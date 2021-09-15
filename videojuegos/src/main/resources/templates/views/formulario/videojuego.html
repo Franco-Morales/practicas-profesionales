@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <title>Formulario Videojuego</title>
+</head>
+<body>
+<nav th:replace="components/navbar :: nav_bar"></nav>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <form th:action="@{/formulario/videojuego/{id}(id=${videojuego.id})}" method="post" th:object="${videojuego}" enctype="multipart/form-data">
+            <div class="row g-3">
+              <div class="form-group col-md-6">
+                <label for="titulo">Titulo:</label>
+                <input type="text" class="form-control" id="titulo" th:field="*{titulo}">
+                <div class="text-danger" th:if="${#fields.hasErrors('titulo')}" th:errors="*{titulo}"></div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="estudio">Estudio: </label>
+                <select class="form-control" id="estudio" th:field="*{estudio}">
+                  <option th:each="estudio: ${estudios}" th:value="${estudio.id}" th:text="${estudio.nombre}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('estudio')}" th:errors="*{estudio}"></div>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="archivo" class="form-label">Imagen: </label>
+                <input type="file" class="form-control" id="archivo" name="archivo">
+                <div class="text-danger" th:if="${errorImagenMsg}" th:text="${errorImagenMsg}"></div>
+              </div>
+              <div class="col-md-12">
+                <input type="hidden" class="form-control" id="imagen" th:field="*{imagen}" name="imagen">
+              </div>
+              <div class="form-group col-md-3">
+                <label for="precio">Precio:</label>
+                <input type="number" class="form-control" id="precio" th:field="*{precio}">
+                <div class="text-danger" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}"></div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="fechaLanzamiento">Fecha de Lanzamiento</label>
+                <input type="date" class="form-control" id="fechaLanzamiento" th:field="*{fechaLanzamiento}">
+                <div class="text-danger" th:if="${#fields.hasErrors('fechaLanzamiento')}" th:errors="*{fechaLanzamiento}"></div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="categoria">Categoria</label>
+                <select class="form-control" id="categoria" th:field="*{categoria}">
+                  <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+                </select>
+                <div class="text-danger" th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="stock">Stock:</label>
+                <input type="number" class="form-control" id="stock" th:field="*{stock}">
+                <div class="text-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="descripcion">Descripción: </label>
+                <textarea class="form-control" id="descripcion" rows="5" th:field="*{descripcion}"></textarea>
+                <div class="text-danger" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+              </div>
+            </div>
+            <div class="row m-3">
+              <div class="col-md-6">
+                <button class="btn btn-outline-secondary" type="reset" style="width:100%">Resetear
+                  Formulario
+                </button>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-success" type="submit" style="width:100%">Guardar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

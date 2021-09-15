@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>Detalle videojuego</title>
+</head>
+<body>
+    <nav th:replace="components/navbar :: nav_bar"></nav>
+    <div class="container">
+        <div class="row mt-5" th:object="${videojuego}">
+            <div class="col-4">
+                <img th:src="*{imagen}" alt="" class="img-fluid">
+            </div>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"th:text="*{titulo}">Card title</h5>
+                        <p class="card-text">Precio : <span th:text="*{precio}">1</span></p>
+                        <p class="card-text" th:if="*{stock}">
+                            Cantidad: <span th:text="*{stock}"></span>
+                        </p>
+                        <p class="card-text" th:unless="*{stock}">
+                            <span class="text-danger">No hay stock</span>
+                        </p>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+                        <p class="card-text" th:text="*{descripcion}"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-5">
+                <a th:href="@{/inicio}" class="btn btn-outline-dark">Volver</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

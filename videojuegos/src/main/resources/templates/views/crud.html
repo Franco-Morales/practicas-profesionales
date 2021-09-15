@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <title>CRUD</title>
+</head>
+<body>
+<nav th:replace="components/navbar :: nav_bar"></nav>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h4>CRUD Videojuego</h4>
+        </div>
+        <div class="col-9 d-flex flex-row-reverse">
+            <a th:href="@{/formulario/videojuego/0}" class="btn btn-success">Agregar Videojuego</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Precio</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="videojuego : ${videojuegos}" th:classappend="${videojuego.activo} ? table-success : table-danger">
+                    <td th:text="${videojuego.id}"></td>
+                    <td th:text="${videojuego.titulo}"></td>
+                    <td th:text="${videojuego.precio}"></td>
+                    <td th:text="${videojuego.stock}"></td>
+                    <td>
+                        <a th:href="@{/formulario/videojuego/{id}(id=${videojuego.id})}" class="btn btn-warning">Editar</a>
+                        <a th:if="${videojuego.activo}" th:href="@{/eliminar/videojuego/{id}(id=${videojuego.id})}" class="btn btn-danger">Eliminar</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
