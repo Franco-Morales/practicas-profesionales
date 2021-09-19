@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row mt-5" th:object="${videojuego}">
             <div class="col-4">
-                <img th:src="*{imagen}" alt="" class="img-fluid">
+                <img th:src="@{'/imagenes/'}+*{imagen}" alt="" class="img-fluid">
             </div>
             <div class="col-8">
                 <div class="card">

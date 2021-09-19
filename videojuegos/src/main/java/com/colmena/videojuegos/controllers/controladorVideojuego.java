@@ -60,6 +60,7 @@ public class controladorVideojuego {
         try {
             List<Videojuego> videojuegos = this.svcVideojuego.findByTitle(q);
             model.addAttribute("videojuegos", videojuegos);
+            model.addAttribute("resultado",q);
             return "views/busqueda";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
@@ -101,7 +102,9 @@ public class controladorVideojuego {
             @RequestParam("archivo") MultipartFile archivo,
             @Valid @ModelAttribute("videojuego") Videojuego videojuego,
             BindingResult result,
-            Model model,@PathVariable("id")long id){
+            Model model,@PathVariable("id")long id
+    ) {
+        
         try {
             model.addAttribute("categorias",this.svcCategoria.findAll());
             model.addAttribute("estudios",this.svcEstudio.findAll());
@@ -117,16 +120,15 @@ public class controladorVideojuego {
                     Paths.get(ruta+"//"+nombreFoto);
             if(id==0){
                 if(archivo.isEmpty()){
-                    model.addAttribute("errorImagenMsg","La imagen es requerida");
+                    model.addAttribute("imageErrorMsg","La imagen es requerida");
                     return "views/formulario/videojuego";
                 }
-                System.out.println(this.validarExtension(archivo));
                 if(!this.validarExtension(archivo)){
-                    model.addAttribute("errorImagenMsg","La extension no es valida");
+                    model.addAttribute("imageErrorMsg","La extension no es valida");
                     return "views/formulario/videojuego";
                 }
                 if(archivo.getSize() >= 15000000){
-                    model.addAttribute("errorImagenMsg","Debe pesar menos que 15MB");
+                    model.addAttribute("imageErrorMsg","El peso excede 15MB");
                     return "views/formulario/videojuego";
                 }
                 Files.write(rutaAbsoluta,archivo.getBytes());
@@ -135,11 +137,11 @@ public class controladorVideojuego {
             }else{
                 if(!archivo.isEmpty()){
                     if(!this.validarExtension(archivo)){
-                        model.addAttribute("errorImagenMsg","La extension no es valida");
+                        model.addAttribute("imageErrorMsg","La extension no es valida");
                         return "views/formulario/videojuego";
                     }
                     if(archivo.getSize() >= 15000000){
-                        model.addAttribute("errorImagenMsg","Debe pesar menos que 15MB");
+                        model.addAttribute("imageErrorMsg","El peso excede 15MB");
                         return "views/formulario/videojuego";
                     }
                     Files.write(rutaAbsoluta,archivo.getBytes());
@@ -177,28 +179,13 @@ public class controladorVideojuego {
         }
     }
 
-    private boolean validarExtension(MultipartFile archivo){
+    public boolean validarExtension(MultipartFile archivo){
         try {
             ImageIO.read(archivo.getInputStream()).toString();
             return true;
-        }catch(Exception e){
-            //No es imagen
+        }catch (Exception e){
             System.out.println(e);
             return false;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
