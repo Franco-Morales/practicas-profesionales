@@ -120,15 +120,15 @@ public class controladorVideojuego {
                     Paths.get(ruta+"//"+nombreFoto);
             if(id==0){
                 if(archivo.isEmpty()){
-                    model.addAttribute("imageErrorMsg","La imagen es requerida");
+                    model.addAttribute("errorImagenMsg","La imagen es requerida");
                     return "views/formulario/videojuego";
                 }
                 if(!this.validarExtension(archivo)){
-                    model.addAttribute("imageErrorMsg","La extension no es valida");
+                    model.addAttribute("errorImagenMsg","La extension no es valida");
                     return "views/formulario/videojuego";
                 }
                 if(archivo.getSize() >= 15000000){
-                    model.addAttribute("imageErrorMsg","El peso excede 15MB");
+                    model.addAttribute("errorImagenMsg","El peso excede 15MB");
                     return "views/formulario/videojuego";
                 }
                 Files.write(rutaAbsoluta,archivo.getBytes());
@@ -137,11 +137,11 @@ public class controladorVideojuego {
             }else{
                 if(!archivo.isEmpty()){
                     if(!this.validarExtension(archivo)){
-                        model.addAttribute("imageErrorMsg","La extension no es valida");
+                        model.addAttribute("errorImagenMsg","La extension no es valida");
                         return "views/formulario/videojuego";
                     }
                     if(archivo.getSize() >= 15000000){
-                        model.addAttribute("imageErrorMsg","El peso excede 15MB");
+                        model.addAttribute("errorImagenMsg","El peso excede 15MB");
                         return "views/formulario/videojuego";
                     }
                     Files.write(rutaAbsoluta,archivo.getBytes());
@@ -162,7 +162,6 @@ public class controladorVideojuego {
             return "views/formulario/eliminar";
         }catch(Exception e){
             model.addAttribute("error", e.getMessage());
-
             return "error";
         }
     }
